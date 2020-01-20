@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap Table with Add and Delete Row Feature</title>
+<link rel="stylesheet" href="./assets/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+<style type="text/css">
+	body {
+		
+		background: #f3f3f3;
+		font-family: 'Roboto', sans-serif;
+    }
+    #buttonData {
+    margin-left: 78px;
+}
+#buttonData input{
+    width: 3px;
+}
+    .form-control {
+		border-color: #eee;
+        min-height: 41px;
+		box-shadow: none !important;
+	}
+    .form-control:focus {
+		border-color: #5cd3b4;
+	}
+    .form-control, .btn {        
+        border-radius: 3px;
+    }
+	.signup-form {
+		width: 500px;
+		margin: 0 auto;
+		padding: 30px 0;
+	}
+    .signup-form h2 {
+		color: #333;
+        margin: 0 0 30px 0;
+		display: inline-block;
+		padding: 0 30px 10px 0;
+		border-bottom: 3px solid #5cd3b4;
+    }
+    .signup-form form {
+		
+		border-radius: 3px;
+    	margin-bottom: 15px;
+        background: #fff;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+	.signup-form .form-group {
+		margin-bottom: 20px;
+	}
+	.signup-form label {
+		font-weight: normal;
+		font-size: 13px;
+	}
+    .signup-form input[type="checkbox"] {
+		margin-top: 2px;
+	}
+    .signup-form .btn {        
+        font-size: 16px;
+        font-weight: bold;
+		background: #5cd3b4;
+		border: none;
+		margin-top: 20px;
+		min-width: 140px;
+    }
+	.signup-form .btn:hover, .signup-form .btn:focus {
+		background: #41cba9;
+        outline: none !important;
+	}
+    .signup-form a {
+		color: #5cd3b4;
+		text-decoration: underline;
+	}
+	.signup-form a:hover {
+		text-decoration: none;
+	}
+    .signup-form form a {
+		color: #5cd3b4;
+		text-decoration: none;
+	}	
+	.signup-form form a:hover {
+		text-decoration: underline;
+	}
+</style>
+</head>
+<body>
+    <h1 style="text-align: center;">liste des produits</h1>
+<div class="container">
+     <div class="row">
+         <div class="col-sm-6">
+            <div class="row" style="margin-bottom: 18px;margin-left: 2px;"><button type="button" class="btn add-new" onclick="addForm()" style="background-color:#5cd3b4;"><i class="fa fa-plus"></i>Ajouter produit</button></div>
+            <table class="table table-bordered" style="background: #fff;">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Libelle</th>
+                        <th>Prix unitaire</th>
+                        <th>Fournisseur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                   
+                      
+                </tbody>
+            </table>
+        </div>
+
+
+
+         <div class="col-sm-6" style="margin-top: 24px;">
+            <div class="signup-form">
+                <form class="form-horizontal hidden" id="form">
+                    <div class="col-xs-8 col-xs-offset-4">
+                        <h2>Nouveau Produit</h2>
+                    </div>		
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">Reference :</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" required="required" id="reference">
+                        </div>        	
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">Libelle :</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" required="required" id="libelle">
+                        </div>        	
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">Prix unitaire : </label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" required="required" id="prixUnitaire">
+                        </div>        	
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">Fournisseur</label>
+                        <div class="col-xs-8">
+                                <select id="fournisseur" class="form-control">                              
+                              </select>
+                        </div> 
+                         
+            	
+                    </div>
+                    <div class="form-group" id="buttonData">
+                            <input type="hidden" value="" id="idproduit">
+                            <input  class="btn btn-primary btn-lg hidden" id="btnAdd" value="Ajouter" onclick="addProduct()">
+                            <input  class="btn btn-primary btn-lg hidden" id="btnUpdate" value="Modifier" onclick="updateProduct()">            
+                            <input  class="btn btn-primary btn-lg" value="Annuler" onclick="hiddenForm()">
+                            
+                </form>
+               
+            </div>
+        
+        </div>
+    </div> 
+</div>
+
+<script>
+
+function getProducts(){
+        $.get("http://localhost/projet_Silex_Ajax/src/produits",function(data,status){
+            data['products'].forEach(function(product){
+               $('#tbody').append("<tr>"+
+                        '<td><a onclick="getProduct('+product.id_produit+')">'+product.reference+'</a></td>'+
+                        "<td>"+product.libelle+"</td>"+
+                        "<td>"+product.prix_unitaire+"</td>"+
+                        "<td>"+product.nomfournisseur+"</td>"+
+                        '<td><a class="edit" title="Edit" onclick="getProduct('+product.id_produit+')"><i class="material-icons">&#xE254;</i></a><a class="delete" title="Delete" onclick="deleteProduct('+ product.id_produit+')"><i class="material-icons">&#xE872;</i></a></td>'+
+                    "</tr>"
+               )
+            })
+     });
+     }
+function getProduct(idProduit){
+    $.get("http://localhost/projet_Silex_Ajax/src/produits/"+idProduit ,function(data,status){
+        $("#form").removeClass('hidden');
+        $("#btnAdd").addClass('hidden');
+        $('#btnUpdate').removeClass('hidden');
+        $("#reference").val(data['products'][0].reference)
+        $("#libelle").val(data['products'][0].libelle)
+        $("#prixUnitaire").val(data['products'][0].prix_unitaire)
+        $('#fournisseur').empty()
+        $("#fournisseur").append('<option value="'+data['products'][0].id_fournisseur+'"selected>'+ data['products'][0].nom+'</option>')
+        $("#idproduit").val(data['products'][0].id_produit)
+
+    })
+}
+function addProduct(){
+  let product ={
+      "libelle":$("#libelle").val(),
+      "prix_unitaire":$("#prixUnitaire").val(),
+      "reference":$("#reference").val(),
+      "id_fournisseur":$("#fournisseur").val()
+  }
+  $.ajax({
+        type:"POST",
+        url:"http://localhost/projet_Silex_Ajax/src/produits",
+        contentType: 'application/json',
+        data: JSON.stringify(product)       
+    }).done(function(result){
+      $("#tbody").empty();
+      getProducts();
+      $("#form").addClass("hidden")
+    })
+}
+function deleteProduct(id){
+    console.log("yes")
+    Swal.fire({
+     title: ' supprimer?',
+     text: "Voulez vous vraiment supprimer ce produit!",
+     icon: 'warning',
+     showCancelButton: true,
+     cancelButtonText: 'Annuler',
+      confirmButtonColor: '#3085d6',
+     cancelButtonColor: '#d33',
+     confirmButtonText: 'Oui ,Supprimer!'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+        type: 'DELETE',
+        url: 'http://localhost/projet_Silex_Ajax/src/produits/' + id })
+        .done(function (result) {
+          if(result == 1){
+            Swal.fire(
+           'success!',
+           'Supression effectuer.',
+           'success'
+           )
+           $("#tbody").empty();
+           getProducts();
+          }
+          else{
+            Swal.fire('impossible de supprimer ce produit')
+          }
+
+        })
+  }
+})
+}
+function updateProduct(){
+  idProduit=$("#idproduit").val();
+  console.log(idProduit)
+  let produit={
+    "libelle":$("#libelle").val(),
+      "prix_unitaire":$("#prixUnitaire").val(),
+      "reference":$("#reference").val(),
+      "id_fournisseur":$("#fournisseur").val()
+  }
+  
+  $.ajax({
+        type:"PUT",
+        url:"http://localhost/projet_Silex_Ajax/src/produits/"+idProduit,
+        contentType: 'application/json',
+        data: JSON.stringify(produit)       
+    }).done(function(result){
+      $("#tbody").empty();
+      getProducts();
+      $("#form").addClass("hidden")
+    })
+
+}
+function hiddenForm(){
+    $("#form").addClass("hidden")
+}
+function addForm(){
+    $.ajax({
+        type:"GET",
+        url:"http://localhost/projet_Silex_Ajax/src/fournisseurs",    
+    }).done(function(result){
+        $('#fournisseur').empty();
+        $('#fournisseur').append('<option></option>')
+         result['products'].forEach(function(fournisseur){
+        $('#fournisseur').append('<option value="'+fournisseur.id_fournisseur+'">'+ fournisseur.nom+'</option>')
+      })
+    })
+    $("#form").removeClass('hidden');
+    $("#btnAdd").removeClass('hidden');
+    $('#btnUpdate').addClass('hidden');
+    $("#reference ,#libelle,#prixUnitaire,#fournisseur").val('');
+}
+ $(document).ready(function(){
+    getProducts();    
+})
+</script>
+</body>
+</html>                            
